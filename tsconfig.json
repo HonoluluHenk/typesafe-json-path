@@ -1,6 +1,5 @@
 // @formatter:off
 {
-  "$schema": "https://json.schemastore.org/tsconfig",
   "compilerOptions": {
     /* Visit https://aka.ms/tsconfig to read more about this file */
 
@@ -106,4 +105,8 @@
   "exclude": [
     "node_modules"
   ],
+  "references": [
+    {"path": "./tsconfig.app.json"},
+    {"path": "./tsconfig.spec.json"},
+  ]
 }
