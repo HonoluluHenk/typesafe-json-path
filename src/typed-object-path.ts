@@ -24,7 +24,7 @@ class Handler implements ProxyHandler<any> {
   }
 
   get(targetEndpoint: any, prop: string | symbol, receiver: any): any {
-    // console.log('get', prop);
+    // console.log('get', prop, typeof prop);
 
     if (targetEndpoint[prop]) {
       return Reflect.get(targetEndpoint, prop, targetEndpoint);

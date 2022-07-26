@@ -2,7 +2,7 @@ import {TypedObjectPath} from './typed-object-path';
 
 const symbol = Symbol('Love Symbol');
 
-describe('Navigator', () => {
+describe('TypedObjectPath', () => {
   const dataEN = {
     FOO: {
       BAR: {
@@ -152,4 +152,37 @@ describe('Navigator', () => {
 
   });
 
+  describe('with arrays', () => {
+    const data = {
+      FOO: [{BAR: 'Bar'}, {HELLO: 'World'}],
+    };
+    const nav = TypedObjectPath.init<typeof data>();
+
+    it('key works', () => {
+      const actual = nav.FOO[0].BAR?.$resolve.key;
+
+      expect(actual)
+        .toEqual('FOO.0.BAR');
+    });
+
+    it('value returns existing value', () => {
+      const actual = nav.FOO[0].BAR?.$resolve.value(data);
+
+      expect(actual)
+        .toEqual('Bar');
+    });
+
+    it('value returns undefined for missing value', () => {
+      const actual = nav.FOO[1].BAR?.$resolve.value(data);
+
+      expect(actual)
+        .toBeUndefined();
+    });
+    it('path works', () => {
+      const actual = nav.FOO[0].BAR?.$resolve.path;
+
+      expect(actual)
+        .toEqual(['FOO', '0', 'BAR']);
+    });
+  });
 });
