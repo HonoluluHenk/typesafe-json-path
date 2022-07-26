@@ -1,4 +1,4 @@
-import {Navigator} from './navigator';
+import {TypedObjectPath} from './typed-object-path';
 
 const symbol = Symbol('Love Symbol');
 
@@ -13,7 +13,7 @@ describe('Navigator', () => {
   };
 
   it('$key returns the computed key', () => {
-    const nav = Navigator.init<typeof dataEN>();
+    const nav = TypedObjectPath.init<typeof dataEN>();
 
     const actual = nav.FOO.BAR.BANANA.$resolve.key;
 
@@ -22,7 +22,7 @@ describe('Navigator', () => {
   });
 
   it('$key supports partial paths', () => {
-    const nav = Navigator.init<typeof dataEN>();
+    const nav = TypedObjectPath.init<typeof dataEN>();
 
     const actual = nav.FOO.BAR.$resolve.key;
 
@@ -31,7 +31,7 @@ describe('Navigator', () => {
   });
 
   it('$resolve.value returns the denoted value', () => {
-    const nav = Navigator.init<typeof dataEN>();
+    const nav = TypedObjectPath.init<typeof dataEN>();
 
     const actual = nav.FOO.BAR.HELLO.$resolve.value(dataEN);
 
@@ -40,7 +40,7 @@ describe('Navigator', () => {
   });
 
   it('$resolve.value returns the denoted value for partial paths', () => {
-    const nav = Navigator.init<typeof dataEN>();
+    const nav = TypedObjectPath.init<typeof dataEN>();
 
     const actual = nav.FOO.BAR.$resolve.value(dataEN);
 
@@ -59,7 +59,7 @@ describe('Navigator', () => {
       },
     };
 
-    const nav = Navigator.init<typeof dataEN & typeof dataDE>();
+    const nav = TypedObjectPath.init<typeof dataEN & typeof dataDE>();
 
     const actual = nav.FOO.BAR.SCHNAPSIDEE.$resolve.value(dataEN);
 
@@ -75,7 +75,7 @@ describe('Navigator', () => {
         },
       },
     };
-    const nav = Navigator.init<typeof data>();
+    const nav = TypedObjectPath.init<typeof data>();
 
     let expecteds = ['FOO', 'BAR', 'BAZ'];
     for (const value of nav.FOO.BAR.BAZ) {
@@ -90,7 +90,7 @@ describe('Navigator', () => {
   });
 
   it('conversion to string works (Symbol.toPrimitive)', () => {
-    const nav = Navigator.init<typeof dataEN>();
+    const nav = TypedObjectPath.init<typeof dataEN>();
 
     const actual = String(nav.FOO.BAR.BANANA);
 
@@ -99,7 +99,7 @@ describe('Navigator', () => {
   });
 
   it('conversion to string works (Symbol.toStringTag)', () => {
-    const nav = Navigator.init<typeof dataEN>();
+    const nav = TypedObjectPath.init<typeof dataEN>();
 
     const actual = Object.prototype.toString.call(nav.FOO.BAR.BANANA);
 
@@ -115,7 +115,7 @@ describe('Navigator', () => {
         },
       },
     };
-    const navDEEN = Navigator.init<typeof dataEN & typeof dataOther>();
+    const navDEEN = TypedObjectPath.init<typeof dataEN & typeof dataOther>();
 
     const bananaKey = navDEEN.FOO.BAR.BANANA.$resolve.key;
     const xyzzyKey = navDEEN.FOO.BAR.XYZZY.$resolve.key;
@@ -134,7 +134,7 @@ describe('Navigator', () => {
         },
       },
     };
-    const nav = Navigator.init<typeof symbolData>();
+    const nav = TypedObjectPath.init<typeof symbolData>();
 
     it('$key stringifys the symbol', () => {
       const actual = nav.THE_ARTIST[symbol].FORMERLY_KNOWN_AS.$resolve.key;

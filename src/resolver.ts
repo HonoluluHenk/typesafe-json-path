@@ -1,4 +1,4 @@
-import {PathSegment} from './pathSegment';
+import {PathSegment} from './path-segment';
 
 type DeepPartial<T> = { [key in keyof T]?: DeepPartial<T[key]> };
 

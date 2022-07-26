@@ -1,5 +1,5 @@
 import type {Resolver} from './resolver';
-import type {PathSegment} from './pathSegment';
+import type {PathSegment} from './path-segment';
 import {PathSymbol} from './utility-types';
 
 export class PathEndpoint<T, TRoot extends object, TResolver extends Resolver<TRoot, T>> implements Iterable<PathSegment> {

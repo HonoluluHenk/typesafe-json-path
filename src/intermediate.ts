@@ -1,6 +1,6 @@
-import {PathSegment} from './pathSegment';
+import {PathSegment} from './path-segment';
 import {Resolver} from './resolver';
-import {PathEndpoint} from './pathEndpoint';
+import {PathEndpoint} from './path-endpoint';
 
 export type Intermediate<T, TRoot extends object> = {
   [key in keyof T]: T[key] extends (PathSegment)

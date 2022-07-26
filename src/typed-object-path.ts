@@ -1,10 +1,10 @@
 import {PathSymbol, ResolverFactory} from './utility-types';
 import {Resolver} from './resolver';
-import {PathSegment} from './pathSegment';
+import {PathSegment} from './path-segment';
 import {Intermediate} from './intermediate';
-import {PathEndpoint} from './pathEndpoint';
+import {PathEndpoint} from './path-endpoint';
 
-export class Navigator {
+export class TypedObjectPath {
 
   public static init<T extends object>(): Intermediate<T, T> {
     const resolverFactory: ResolverFactory<Resolver<T, any>> = ((path: ReadonlyArray<PathSegment>) => new Resolver(path));

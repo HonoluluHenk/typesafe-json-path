@@ -1,7 +1,7 @@
 {
-  "name": "object-navigator",
+  "name": "@honoluluhenk/typed-object-path",
   "version": "1.0.0",
-  "description": "FIXME description",
+  "description": "Easier navigation through objects with correct types and autocomplete",
   "main": "index.js",
   "scripts": {
     "build": "tsc --project tsconfig.app.json",
@@ -11,8 +11,10 @@
     "clean": "rimraf dist reports"
   },
   "keywords": [
-    "FIXME",
-    "keywords"
+    "object",
+    "traversal",
+    "path",
+    "json"
   ],
   "author": "Christoph Linder",
   "license": "LGPL-3.0-or-later",
