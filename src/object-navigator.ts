@@ -14,10 +14,6 @@ export type Intermediate<T, TRoot extends object> = {
     : Endpoint<T[key], TRoot> & Intermediate<T[key], TRoot>
 };
 
-export class Resolver<T> {
-
-}
-
 export class Endpoint<T, TRoot extends object> implements Iterable<Path>{
   public constructor(
     private readonly path: Path[],
