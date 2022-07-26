@@ -23,15 +23,15 @@ export default {
   // collectCoverageFrom: undefined,
 
   // The directory where Jest should output its coverage files
-  coverageDirectory: "coverage",
+  coverageDirectory: 'reports/coverage',
 
   // An array of regexp pattern strings used to skip coverage collection
   coveragePathIgnorePatterns: [
-    "/node_modules/"
+    '/node_modules/',
   ],
 
   // Indicates which provider should be used to instrument code for coverage
-  coverageProvider: "v8",
+  coverageProvider: 'v8',
 
   // A list of reporter names that Jest uses when writing coverage reports
   // coverageReporters: [
@@ -43,6 +43,14 @@ export default {
 
   // An object that configures minimum threshold enforcement for coverage results
   // coverageThreshold: undefined,
+  coverageThreshold: {
+    'global': {
+      'branches': 100,
+      'functions': 100,
+      'lines': 100,
+      'statements': 100,
+    },
+  },
 
   // A path to a custom dependency extractor
   // dependencyExtractor: undefined,
@@ -86,6 +94,10 @@ export default {
   //   "json",
   //   "node"
   // ],
+  moduleFileExtensions: [
+    'ts',
+    'js',
+  ],
 
   // A map from regular expressions to module names or to arrays of module names that allow to stub out resources with a single module
   // moduleNameMapper: {},
@@ -108,6 +120,12 @@ export default {
 
   // Use this configuration option to add custom reporters to Jest
   // reporters: undefined,
+  reporters: [
+    'default',
+    ['jest-junit', {
+      'outputDirectory': '<rootDir>/reports',
+    }],
+  ],
 
   // Automatically reset mock state before every test
   // resetMocks: false,
@@ -126,7 +144,7 @@ export default {
 
   // A list of paths to directories that Jest should use to search for files in
   roots: [
-    "<rootDir>/src"
+    '<rootDir>/src',
   ],
 
   // Allows you to use a custom runner instead of Jest's default test runner
@@ -146,7 +164,6 @@ export default {
 
   // The test environment that will be used for testing
   // testEnvironment: "jest-environment-node",
-  testEnvironment: "node",
 
   // Options that will be passed to the testEnvironment
   // testEnvironmentOptions: {},
@@ -191,6 +208,13 @@ export default {
 
   // An array of regexp patterns that are matched against all source file paths before re-running tests in watch mode
   // watchPathIgnorePatterns: [],
+
+  // This option allows you to use custom watch plugins. Read more about watch plugins here.
+  // watchPlugins: [],
+  watchPlugins: [
+    'jest-watch-typeahead/filename',
+    'jest-watch-typeahead/testname',
+  ],
 
   // Whether to use watchman for file crawling
   // watchman: true,
