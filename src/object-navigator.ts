@@ -6,22 +6,22 @@ export interface Config {
 
 export type ParsedConfig = Readonly<Required<Config>>;
 
-export type Path = string | symbol;
+export type PathSegment = string | symbol;
 
 export type Intermediate<T, TRoot extends object> = {
-  [key in keyof T]: T[key] extends (Path)
+  [key in keyof T]: T[key] extends (PathSegment)
     ? Endpoint<T[key], TRoot>
     : Endpoint<T[key], TRoot> & Intermediate<T[key], TRoot>
 };
 
-export class Endpoint<T, TRoot extends object> implements Iterable<Path>{
+export class Endpoint<T, TRoot extends object> implements Iterable<PathSegment>{
   public constructor(
-    private readonly path: Path[],
+    private readonly path: PathSegment[],
     private readonly config: ParsedConfig,
   ) {
   }
 
-  get $path(): Path[] {
+  get $path(): PathSegment[] {
     return this.path;
   }
 
@@ -39,7 +39,7 @@ export class Endpoint<T, TRoot extends object> implements Iterable<Path>{
     return mapper(this.$key);
   }
 
-  $applyPath<R>(mapper: (path: ReadonlyArray<Path>) => R): R {
+  $applyPath<R>(mapper: (path: ReadonlyArray<PathSegment>) => R): R {
     return mapper(this.$path);
   }
 
