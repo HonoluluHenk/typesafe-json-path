@@ -2,7 +2,7 @@ import type {Resolver} from './resolver';
 import type {PathSegment} from './path-segment';
 import {PathSymbol} from './utility-types';
 
-export class PathEndpoint<T, TRoot extends object, TResolver extends Resolver<TRoot, T>> implements Iterable<PathSegment> {
+export class PathEndpoint<T, TRoot extends object, TResolver extends Resolver<T, TRoot>> implements Iterable<PathSegment> {
   public constructor(
     private readonly path: ReadonlyArray<PathSegment>,
     private readonly resolverFactory: (path: ReadonlyArray<PathSegment>) => TResolver,

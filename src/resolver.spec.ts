@@ -11,7 +11,7 @@ describe('resolver', () => {
 
   describe('key', () => {
     it('returns the path as string', () => {
-      const actual = new Resolver<typeof data, string>(['FOO', 'BAR', 'HELLO'])
+      const actual = new Resolver<unknown, typeof data>(['FOO', 'BAR', 'HELLO'])
         .key;
 
       expect(actual)
@@ -21,14 +21,14 @@ describe('resolver', () => {
 
   describe('value', () => {
     it('returns the value at a full path', () => {
-      const actual = new Resolver<typeof data, unknown>(['FOO', 'BAR', 'HELLO'])
+      const actual = new Resolver<unknown, typeof data>(['FOO', 'BAR', 'HELLO'])
         .value(data);
 
       expect(actual)
         .toEqual('Hello World');
     });
     it('returns the value at a partial path', () => {
-      const actual = new Resolver<typeof data, unknown>(['FOO', 'BAR'])
+      const actual = new Resolver<unknown, typeof data>(['FOO', 'BAR'])
         .value(data);
 
       expect(actual)

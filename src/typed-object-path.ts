@@ -7,7 +7,7 @@ import {PathEndpoint} from './path-endpoint';
 export class TypedObjectPath {
 
   public static init<T extends object>(): Intermediate<T, T> {
-    const resolverFactory: ResolverFactory<Resolver<T, any>> = ((path: ReadonlyArray<PathSegment>) => new Resolver(path));
+    const resolverFactory: ResolverFactory<Resolver<unknown, T>> = ((path: ReadonlyArray<PathSegment>) => new Resolver(path));
 
     const endpoint = new PathEndpoint([], resolverFactory);
     const handler = new Handler(resolverFactory);

@@ -2,7 +2,7 @@ import {PathSegment} from './path-segment';
 
 type DeepPartial<T> = { [key in keyof T]?: DeepPartial<T[key]> };
 
-export class Resolver<TRoot extends object, T> {
+export class Resolver<T, TRoot extends object> {
 
   constructor(
     private readonly _path: ReadonlyArray<PathSegment>,
