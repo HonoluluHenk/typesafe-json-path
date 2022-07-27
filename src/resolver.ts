@@ -3,9 +3,14 @@ import {PathSegment} from './path-segment';
 type DeepPartial<T> = { [key in keyof T]?: DeepPartial<T[key]> };
 
 export class Resolver<TRoot extends object, T> {
+
   constructor(
-    public readonly path: ReadonlyArray<PathSegment>,
+    private readonly _path: ReadonlyArray<PathSegment>,
   ) {
+  }
+
+  get path(): ReadonlyArray<PathSegment> {
+    return this._path;
   }
 
   get key(): string {
@@ -14,7 +19,7 @@ export class Resolver<TRoot extends object, T> {
 
   value(root: DeepPartial<TRoot>): T {
     let current: any = root;
-    for (const path of this.path) {
+    for (const path of this._path) {
       current = current[path];
       if (current === null || current === undefined) {
         return current;
@@ -25,7 +30,7 @@ export class Resolver<TRoot extends object, T> {
   }
 
   protected pathAsText(pathSeparator: string = '.'): string {
-    return this.path
+    return this._path
       .map(p => String(p))
       .join(pathSeparator);
   }
