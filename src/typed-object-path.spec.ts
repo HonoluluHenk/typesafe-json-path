@@ -12,43 +12,43 @@ describe('TypedObjectPath', () => {
     },
   };
 
-  it('$key returns the computed key', () => {
+  it('$path.toString() returns the computed key', () => {
     const nav = TypedObjectPath.init<typeof dataEN>();
 
-    const actual = nav.FOO.BAR.BANANA.$resolve.key;
+    const actual = nav.FOO.BAR.BANANA.$path.toString();
 
     expect(actual)
       .toEqual('FOO.BAR.BANANA');
   });
 
-  it('$key supports partial paths', () => {
+  it('$path.toString() supports partial paths', () => {
     const nav = TypedObjectPath.init<typeof dataEN>();
 
-    const actual = nav.FOO.BAR.$resolve.key;
+    const actual = nav.FOO.BAR.$path.toString();
 
     expect(actual)
       .toEqual('FOO.BAR');
   });
 
-  it('$resolve.value returns the denoted value', () => {
+  it('$path.resolve() returns the denoted value', () => {
     const nav = TypedObjectPath.init<typeof dataEN>();
 
-    const actual = nav.FOO.BAR.HELLO.$resolve.value(dataEN);
+    const actual = nav.FOO.BAR.HELLO.$path.resolve(dataEN);
 
     expect(actual)
       .toEqual('Hello World');
   });
 
-  it('$resolve.value returns the denoted value for partial paths', () => {
+  it('$path.resolve() returns the denoted value for partial paths', () => {
     const nav = TypedObjectPath.init<typeof dataEN>();
 
-    const actual = nav.FOO.BAR.$resolve.value(dataEN);
+    const actual = nav.FOO.BAR.$path.resolve(dataEN);
 
     expect(actual)
       .toEqual({HELLO: 'Hello World', BANANA: 'Banana'});
   });
 
-  it('$resolve returns nullish for non-existing paths', () => {
+  it('$path.resolve() returns undefined for non-existing paths', () => {
     const dataDE = {
       FOO: {
         BAR: {
@@ -61,7 +61,7 @@ describe('TypedObjectPath', () => {
 
     const nav = TypedObjectPath.init<typeof dataEN & typeof dataDE>();
 
-    const actual = nav.FOO.BAR.SCHNAPSIDEE.$resolve.value(dataEN);
+    const actual = nav.FOO.BAR.SCHNAPSIDEE.$path.resolve(dataEN);
 
     expect(actual)
       .toBeUndefined();
@@ -89,7 +89,7 @@ describe('TypedObjectPath', () => {
       .toStrictEqual([]);
   });
 
-  it('conversion to string works (Symbol.toPrimitive)', () => {
+  it('converts to string using (Symbol.toPrimitive)', () => {
     const nav = TypedObjectPath.init<typeof dataEN>();
 
     const actual = String(nav.FOO.BAR.BANANA);
@@ -98,7 +98,7 @@ describe('TypedObjectPath', () => {
       .toEqual('FOO.BAR.BANANA');
   });
 
-  it('conversion to string works (Symbol.toStringTag)', () => {
+  it('converts to string using (Symbol.toStringTag)', () => {
     const nav = TypedObjectPath.init<typeof dataEN>();
 
     const actual = Object.prototype.toString.call(nav.FOO.BAR.BANANA);
@@ -117,8 +117,8 @@ describe('TypedObjectPath', () => {
     };
     const navDEEN = TypedObjectPath.init<typeof dataEN & typeof dataOther>();
 
-    const bananaKey = navDEEN.FOO.BAR.BANANA.$resolve.key;
-    const xyzzyKey = navDEEN.FOO.BAR.XYZZY.$resolve.key;
+    const bananaKey = navDEEN.FOO.BAR.BANANA.$path.toString();
+    const xyzzyKey = navDEEN.FOO.BAR.XYZZY.$path.toString();
 
     expect(bananaKey)
       .toEqual('FOO.BAR.BANANA');
@@ -136,15 +136,15 @@ describe('TypedObjectPath', () => {
     };
     const nav = TypedObjectPath.init<typeof symbolData>();
 
-    it('$key stringifys the symbol', () => {
-      const actual = nav.THE_ARTIST[symbol].FORMERLY_KNOWN_AS.$resolve.key;
+    it('$path.toString() stringifys the symbol', () => {
+      const actual = nav.THE_ARTIST[symbol].FORMERLY_KNOWN_AS.$path.toString();
 
       expect(actual)
         .toEqual('THE_ARTIST.Symbol(Love Symbol).FORMERLY_KNOWN_AS');
     });
 
-    it('$resolve.value returns the denoted value', () => {
-      const actual = nav.THE_ARTIST[symbol].FORMERLY_KNOWN_AS.$resolve.value(symbolData);
+    it('$path.resolve() returns the symbol in its place', () => {
+      const actual = nav.THE_ARTIST[symbol].FORMERLY_KNOWN_AS.$path.resolve(symbolData);
 
       expect(actual)
         .toEqual('Prince');
@@ -158,28 +158,29 @@ describe('TypedObjectPath', () => {
     };
     const nav = TypedObjectPath.init<typeof data>();
 
-    it('key works', () => {
-      const actual = nav.FOO[0].BAR?.$resolve.key;
+    it('$path.toString() works', () => {
+      const actual = nav.FOO[0].BAR?.$path.toString();
 
       expect(actual)
         .toEqual('FOO.0.BAR');
     });
 
-    it('value returns existing value', () => {
-      const actual = nav.FOO[0].BAR?.$resolve.value(data);
+    it('$path.resolve() returns existing value', () => {
+      const actual = nav.FOO[0].BAR?.$path.resolve(data);
 
       expect(actual)
         .toEqual('Bar');
     });
 
-    it('value returns undefined for missing value', () => {
-      const actual = nav.FOO[1].BAR?.$resolve.value(data);
+    it('$path.resolve() returns undefined for missing value', () => {
+      const actual = nav.FOO[1].BAR?.$path.resolve(data);
 
       expect(actual)
         .toBeUndefined();
     });
-    it('path works', () => {
-      const actual = nav.FOO[0].BAR?.$resolve.path;
+
+    it('$path.toArray works', () => {
+      const actual = nav.FOO[0].BAR?.$path.toArray();
 
       expect(actual)
         .toEqual(['FOO', '0', 'BAR']);

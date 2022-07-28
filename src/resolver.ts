@@ -1,6 +1,7 @@
 import {PathSegment} from './path-segment';
+import {joinPath} from './join-path';
 
-type DeepPartial<T> = { [key in keyof T]?: DeepPartial<T[key]> };
+type DeepPartial<T> = { readonly [key in keyof T]?: DeepPartial<T[key]> };
 
 export class Resolver<T, TRoot extends object> {
 
@@ -9,15 +10,15 @@ export class Resolver<T, TRoot extends object> {
   ) {
   }
 
-  get path(): ReadonlyArray<PathSegment> {
+  toString(pathSeparator: string = '.'): string {
+    return joinPath(this._path, pathSeparator);
+  }
+
+  toArray(): ReadonlyArray<PathSegment> {
     return this._path;
   }
 
-  get key(): string {
-    return this.pathAsText();
-  }
-
-  value(root: DeepPartial<TRoot>): T {
+  resolve(root: DeepPartial<TRoot>): T {
     let current: any = root;
     for (const path of this._path) {
       current = current[path];
@@ -29,9 +30,4 @@ export class Resolver<T, TRoot extends object> {
     return current;
   }
 
-  protected pathAsText(pathSeparator: string = '.'): string {
-    return this._path
-      .map(p => String(p))
-      .join(pathSeparator);
-  }
 }
