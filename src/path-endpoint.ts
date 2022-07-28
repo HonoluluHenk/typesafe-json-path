@@ -10,7 +10,7 @@ export class PathEndpoint<T, TRoot extends object, TResolver extends Resolver<T,
   ) {
   }
 
-  get $path(): TResolver {
+  get $key(): TResolver {
     return this.resolverFactory(this.path);
   }
 
