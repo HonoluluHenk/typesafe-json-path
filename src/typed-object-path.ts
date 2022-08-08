@@ -1,18 +1,23 @@
 import {PathSymbol, ResolverFactory} from './utility-types';
 import {Resolver} from './resolver';
-import {PathSegment} from './path-segment';
 import {Intermediate} from './intermediate';
 import {PathEndpoint} from './path-endpoint';
 
 export class TypedObjectPath {
 
-  public static init<T extends object>(): Intermediate<T, T> {
-    const resolverFactory: ResolverFactory<Resolver<unknown, T>> = ((path: ReadonlyArray<PathSegment>) => new Resolver(path));
+  public static init<TRoot extends object>(): Intermediate<TRoot, TRoot, Resolver<unknown, TRoot>>;
+  public static init<TRoot extends object, ResolverExtension extends Resolver<unknown, TRoot>>(
+    resolverFactory: ResolverFactory<ResolverExtension>,
+  ): Intermediate<TRoot, TRoot, ResolverExtension>;
+  public static init<TRoot extends object, ResolverExtension extends Resolver<unknown, TRoot>>(
+    resolverFactory?: ResolverFactory<ResolverExtension>,
+  ): Intermediate<TRoot, TRoot, ResolverExtension> {
+    resolverFactory ||= path => new Resolver(path) as ResolverExtension;
 
     const endpoint = new PathEndpoint([], resolverFactory);
     const handler = new Handler(resolverFactory);
 
-    return new Proxy(endpoint, handler) as any as Intermediate<T, T>;
+    return new Proxy(endpoint, handler) as any as Intermediate<TRoot, TRoot, ResolverExtension>;
   }
 
 }

@@ -10,6 +10,10 @@ export class Resolver<T, TRoot extends object> {
   ) {
   }
 
+  get path(): string {
+    return this.toString();
+  }
+
   toString(pathSeparator: string = '.'): string {
     return joinPath(this._path, pathSeparator);
   }

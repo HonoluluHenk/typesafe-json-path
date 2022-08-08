@@ -1,4 +1,5 @@
 import {TypedObjectPath} from './typed-object-path';
+import {Resolver} from './resolver';
 
 const symbol = Symbol('Love Symbol');
 
@@ -184,6 +185,23 @@ describe('TypedObjectPath', () => {
 
       expect(actual)
         .toEqual(['FOO', '0', 'BAR']);
+    });
+  });
+
+  describe('using a custom resolver', () => {
+    class MyResolver<T extends object> extends Resolver<unknown, T> {
+      doStuff(): string {
+        return `DoStuff: ${this.path}`;
+      }
+    }
+
+    it('compiles without error and executes the custom method', () => {
+      const nav = TypedObjectPath.init<typeof dataEN, MyResolver<any>>(path => new MyResolver(path));
+
+      const actual = nav.FOO.BAR.BANANA.$key.doStuff();
+
+      expect(actual)
+        .toEqual('DoStuff: FOO.BAR.BANANA');
     });
   });
 });
