@@ -31,10 +31,17 @@ class Handler implements ProxyHandler<any> {
     }
 
     const oldEndpoint = (targetEndpoint as PathEndpoint<any, any, Resolver<any, any>>);
-    // explicitly do *not* create a method for this on Endpoint to keep its surface minimal
-    // so hopefully no method-names interfere with possible user-defined property-names.
-    const newEndpoint = new PathEndpoint(oldEndpoint[PathSymbol].concat(prop), this.resolverFactory);
+    const newEndpoint = this.childEndpoint(oldEndpoint, prop);
 
     return new Proxy(newEndpoint, this);
+  }
+
+  private childEndpoint(oldEndpoint: PathEndpoint<any, any, Resolver<any, any>>, prop: string | symbol) {
+    // explicitly do *not* create a method for this on Endpoint to keep its surface minimal
+    // so hopefully no method-names interfere with possible user-defined property-names.
+    const childPath = oldEndpoint[PathSymbol].concat(prop);
+    const newEndpoint = new PathEndpoint(childPath, this.resolverFactory);
+
+    return newEndpoint;
   }
 }
