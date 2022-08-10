@@ -151,7 +151,7 @@ console.log(text);
 ## Getting Started
 
 ### Prerequisites
-The implementation makes heavy use of the [Proxy](mdn-proxy-url) object.
+The implementation makes heavy use of the [Proxy][mdn-proxy-url] object.
 
 As such, this lib can only be used if [it is available](https://caniuse.com/?search=proxy).
 
