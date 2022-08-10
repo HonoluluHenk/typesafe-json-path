@@ -10,6 +10,9 @@ export class Resolver<T, TRoot extends object> {
   ) {
   }
 
+  /**
+   * the current path with entries separated by '.'.
+   */
   get path(): string {
     return this.toString();
   }
@@ -20,6 +23,20 @@ export class Resolver<T, TRoot extends object> {
 
   toArray(): ReadonlyArray<PathSegment> {
     return this._path;
+  }
+
+  isPresent(root: DeepPartial<TRoot>, nullAllowed: boolean = false): boolean {
+    const value = this.resolve(root);
+
+    if (value === undefined) {
+      return false;
+    }
+
+    if (value === null) {
+      return nullAllowed;
+    }
+
+    return true;
   }
 
   resolve(root: DeepPartial<TRoot>): T {

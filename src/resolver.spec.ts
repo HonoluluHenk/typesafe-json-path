@@ -30,7 +30,7 @@ describe('resolver', () => {
   describe('toArray', () => {
     it('returns the path as an array', () => {
       const actual = new Resolver<unknown, typeof data>(['FOO', 'BAR', 'HELLO'])
-      .toArray();
+        .toArray();
 
       expect(actual)
         .toEqual(['FOO', 'BAR', 'HELLO']);
@@ -54,6 +54,52 @@ describe('resolver', () => {
         .toEqual({
           HELLO: 'Hello World',
         });
+    });
+  });
+
+  describe('isPresent', () => {
+
+    it('returns true if data is present at the denoted path', () => {
+      const actual = new Resolver<unknown, typeof data>(['FOO', 'BAR', 'HELLO'])
+        .isPresent(data);
+
+      expect(actual)
+        .toBe(true);
+    });
+
+    it('returns false if data is missing at the denoted path', () => {
+      const actual = new Resolver<unknown, typeof data>(['FOO', 'BAR', 'missing'])
+        .isPresent(data);
+
+      expect(actual)
+        .toBe(false);
+    });
+
+    describe('nullAllowed', () => {
+      const partialData = {
+        FOO: {
+          BAR: {
+            HELLO: 'Hello World',
+            NULL: null,
+          },
+        },
+      };
+
+      it('returns true if nullAllowed and data is null', () => {
+        const actual = new Resolver<unknown, typeof partialData>(['FOO', 'BAR', 'NULL'])
+          .isPresent(partialData, true);
+
+        expect(actual)
+          .toBe(true);
+      });
+
+      it('returns false if not nullAllowed and data is null', () => {
+        const actual = new Resolver<unknown, typeof partialData>(['FOO', 'BAR', 'NULL'])
+          .isPresent(partialData, false);
+
+        expect(actual)
+          .toBe(false);
+      });
     });
   });
 
