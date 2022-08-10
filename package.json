@@ -1,6 +1,6 @@
 {
   "name": "@honoluluhenk/typesafe-json-path",
-  "version": "0.0.9-0",
+  "version": "1.0.0",
   "description": "Typesafe navigation in JSON data structures for typescrpt",
   "main": "./build/lib/index.js",
   "types": "./build/lib/index.d.ts",
