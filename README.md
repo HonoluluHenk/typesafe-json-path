@@ -24,7 +24,13 @@ Typesafe navigation in JSON data structures for typescrpt.
             <li><a href="#full-example">Full example</a></li>
         </ul>
     </li>
-    <li><a href="#getting-started">Getting Started</a></li>
+    <li>
+        <a href="#getting-started">Getting Started</a>
+        <ul>
+            <li><a href="#prerequisites">Prerequisites</a></li>
+            <li><a href="#installation">Installation</a></li>
+        </ul>
+        </li>
     <li><a href="#changelog">Changelog</a></li>
     <li><a href="#roadmap">Roadmap</a></li>
     <li><a href="#contributing">Contributing</a></li>
@@ -144,7 +150,14 @@ console.log(text);
 
 ## Getting Started
 
-This npm library is intended to be used in typescript projects.
+### Prerequisites
+The implementation makes heavy use of the [Proxy](mdn-proxy-url) object.
+
+As such, this lib can only be used if [it is available](https://caniuse.com/?search=proxy).
+
+### Installation
+
+This npm library is intended to be used in typescript projects where the 
 
 Just install the NPM package:
 ```sh
@@ -152,6 +165,7 @@ npm install @honoluluhenk/typesafe-json-path
 ```
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
+
 
 ## Changelog
 See [releases][releases-url]
@@ -208,3 +222,4 @@ Project Link: [https://github.com/HonoluluHenk/typesafe-json-path](https://githu
 [npm-package-shield-url]: https://badge.fury.io/js/@honoluluhenk%2Ftypesafe-json-path
 [Workflow-build-shield]: https://github.com/HonoluluHenk/typesafe-json-path/actions/workflows/build-and-publish.yml/badge.svg?branch=main
 [Workflow-build-url]: https://github.com/HonoluluHenk/typesafe-json-path/actions/workflows/build-and-publish.yml
+[mdn-proxy-url]: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Proxy
