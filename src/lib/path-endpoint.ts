@@ -9,7 +9,7 @@ import {joinPath} from './join-path';
  * Acts as a factory for {@link Resolver}.
  *
  * <strong>Keep this classes' api surface small to prevent overlaps with properties in user-data.</strong>
- * (This is also the reason for the esoteric name of {@link $key} and the {@link PathSymbol} property)
+ * (This is also the reason for the esoteric name of {@link $path} and the {@link PathSymbol} property)
  */
 export class PathEndpoint<T, TRoot extends object, TResolver extends Resolver<T, TRoot>> implements Iterable<PathSegment> {
   public constructor(
@@ -21,7 +21,7 @@ export class PathEndpoint<T, TRoot extends object, TResolver extends Resolver<T,
   /**
    * Instantiate a resolver at the current path.
    */
-  get $key(): TResolver {
+  get $path(): TResolver {
     return this.resolverFactory(this.path);
   }
 

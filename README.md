@@ -39,6 +39,9 @@ Typesafe navigation in JSON data structures for typescrpt.
 * Ever had a JSON data structure that is implemented in more than one file? Translation-files anyone?
 * You wanted to access these values in a typesafe manner? I.e.: without resorting to string-keys?
 * You want refactoring support from your IDE when renaming properties?
+* You want compilation to fail if you mistyped a property name?
+
+Read the examples in <a href="#usage">Usage</a> to find out how! 
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
@@ -49,7 +52,7 @@ Best shown by example:
 
 ### Minimal example
 ```typescript
-import {TypedObjectPath} from '@honoluluhenk/typesafe-json-path';
+import {TypesafeJsonPath} from '@honoluluhenk/typesafe-json-path';
 
 const translationsRoot = {
   FOO: {
@@ -60,13 +63,15 @@ const translationsRoot = {
   }
 };
 
-const path = TypedObjectPath.init<typeof translationsRoot>();
+const path = TypesafeJsonPath.init<typeof translationsRoot>();
 
 // please note: this is not string but real property access!
-const value = path.FOO.BAR.HELLO.$key.resolve(translationsRoot);
+const pathAsString = path.FOO.BAR.HELLO.$path.path;
+// 'FOO.BAR.HELLO'
+const value = path.FOO.BAR.HELLO.$path.get(translationsRoot);
 
 console.log(value);
-// Hello World
+// 'Hello World'
 ```
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
@@ -119,19 +124,19 @@ class Translator<T extends object> extends Resolver<unknown, T> {
 type TranslationType = typeof translationsRoot & typeof translationsDE;
 
 // Now the real fun begins...
-const translations = TypedObjectPath.init<TranslationType, Translator<any>>(
+const translations = TypesafeJsonPath.init<TranslationType, Translator<any>>(
   path => new Translator(
     path,
     new MyCustomTranslateService(navigator.languages[0], {en: translationsRoot, de: translationsDE}),
   ),
 );
 
-// again: this is not string but real property access!
-const text = translations.FOO.BAR.HELLO.$key.translate('Welt');
+// again: this is not string but real property access in a typesafe and refactoring-friendly way!
+const text = translations.FOO.BAR.HELLO.$path.translate('Welt');
 // internally, myTranslateService.translate() was called with the path-string 'FOO.BAR.HELLO'.
 // Assuming the user language was some german (de) locale
 console.log(text);
-// Hallo Welt
+// 'Hallo Welt'
 
 ```
 

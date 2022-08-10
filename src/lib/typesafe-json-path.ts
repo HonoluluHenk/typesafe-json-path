@@ -25,7 +25,7 @@ export class TypesafeJsonPath {
    *
    * const path = TypesafeJsonPath.init<typeof translationsRoot>();
    *
-   * const value = path.FOO.BAR.HELLO.$key.resolve(translationsRoot);
+   * const value = path.FOO.BAR.HELLO.$path.get(translationsRoot);
    * console.log(value);
    * // Hello World
    *
@@ -58,7 +58,7 @@ export class TypesafeJsonPath {
    *   path => new Translator(path, myTranslateService);)
    * );
    *
-   * const text = translations.FOO.BAR.HELLO.$key.translate('world');
+   * const text = translations.FOO.BAR.HELLO.$path.translate('world');
    * console.log(text);
    * // Hello world
    *

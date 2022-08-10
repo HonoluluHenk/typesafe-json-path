@@ -43,7 +43,7 @@ export class Resolver<T, TRoot extends object> {
    * @param nullAllowed disables the null check so only undefined is considered.
    */
   isPresent(root: DeepPartial<TRoot>, nullAllowed: boolean = false): boolean {
-    const value = this.resolve(root);
+    const value = this.get(root);
 
     if (value === undefined) {
       return false;
@@ -57,9 +57,9 @@ export class Resolver<T, TRoot extends object> {
   }
 
   /**
-   * Traverse the root-object using the current path and return the value.
+   * Traverse the root-object using the current path and get the value.
    */
-  resolve(root: DeepPartial<TRoot>): T {
+  get(root: DeepPartial<TRoot>): T {
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     let current: any = root;
     for (const path of this._path) {

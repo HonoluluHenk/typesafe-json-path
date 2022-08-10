@@ -13,43 +13,43 @@ describe('TypesafeJsonPath', () => {
     },
   };
 
-  it('$key.toString() returns the computed key', () => {
+  it('$path.toString() returns the computed key', () => {
     const nav = TypesafeJsonPath.init<typeof dataEN>();
 
-    const actual = nav.FOO.BAR.BANANA.$key.toString();
+    const actual = nav.FOO.BAR.BANANA.$path.toString();
 
     expect(actual)
       .toEqual('FOO.BAR.BANANA');
   });
 
-  it('$key.toString() supports partial paths', () => {
+  it('$path.toString() supports partial paths', () => {
     const nav = TypesafeJsonPath.init<typeof dataEN>();
 
-    const actual = nav.FOO.BAR.$key.toString();
+    const actual = nav.FOO.BAR.$path.toString();
 
     expect(actual)
       .toEqual('FOO.BAR');
   });
 
-  it('$key.resolve() returns the denoted value', () => {
+  it('$path.get() returns the denoted value', () => {
     const nav = TypesafeJsonPath.init<typeof dataEN>();
 
-    const actual = nav.FOO.BAR.HELLO.$key.resolve(dataEN);
+    const actual = nav.FOO.BAR.HELLO.$path.get(dataEN);
 
     expect(actual)
       .toEqual('Hello World');
   });
 
-  it('$key.resolve() returns the denoted value for partial paths', () => {
+  it('$path.get() returns the denoted value for partial paths', () => {
     const nav = TypesafeJsonPath.init<typeof dataEN>();
 
-    const actual = nav.FOO.BAR.$key.resolve(dataEN);
+    const actual = nav.FOO.BAR.$path.get(dataEN);
 
     expect(actual)
       .toEqual({HELLO: 'Hello World', BANANA: 'Banana'});
   });
 
-  it('$key.resolve() returns undefined for non-existing paths', () => {
+  it('$path.get() returns undefined for non-existing paths', () => {
     const dataDE = {
       FOO: {
         BAR: {
@@ -62,7 +62,7 @@ describe('TypesafeJsonPath', () => {
 
     const nav = TypesafeJsonPath.init<typeof dataEN & typeof dataDE>();
 
-    const actual = nav.FOO.BAR.SCHNAPSIDEE.$key.resolve(dataEN);
+    const actual = nav.FOO.BAR.SCHNAPSIDEE.$path.get(dataEN);
 
     expect(actual)
       .toBeUndefined();
@@ -118,8 +118,8 @@ describe('TypesafeJsonPath', () => {
     };
     const navDEEN = TypesafeJsonPath.init<typeof dataEN & typeof dataOther>();
 
-    const bananaKey = navDEEN.FOO.BAR.BANANA.$key.toString();
-    const xyzzyKey = navDEEN.FOO.BAR.XYZZY.$key.toString();
+    const bananaKey = navDEEN.FOO.BAR.BANANA.$path.toString();
+    const xyzzyKey = navDEEN.FOO.BAR.XYZZY.$path.toString();
 
     expect(bananaKey)
       .toEqual('FOO.BAR.BANANA');
@@ -137,15 +137,15 @@ describe('TypesafeJsonPath', () => {
     };
     const nav = TypesafeJsonPath.init<typeof symbolData>();
 
-    it('$key.toString() stringifys the symbol', () => {
-      const actual = nav.THE_ARTIST[symbol].FORMERLY_KNOWN_AS.$key.toString();
+    it('$path.toString() stringifys the symbol', () => {
+      const actual = nav.THE_ARTIST[symbol].FORMERLY_KNOWN_AS.$path.toString();
 
       expect(actual)
         .toEqual('THE_ARTIST.Symbol(Love Symbol).FORMERLY_KNOWN_AS');
     });
 
-    it('$key.resolve() returns the symbol in its place', () => {
-      const actual = nav.THE_ARTIST[symbol].FORMERLY_KNOWN_AS.$key.resolve(symbolData);
+    it('$path.get() returns the symbol in its place', () => {
+      const actual = nav.THE_ARTIST[symbol].FORMERLY_KNOWN_AS.$path.get(symbolData);
 
       expect(actual)
         .toEqual('Prince');
@@ -159,29 +159,29 @@ describe('TypesafeJsonPath', () => {
     };
     const nav = TypesafeJsonPath.init<typeof data>();
 
-    it('$key.toString() works', () => {
-      const actual = nav.FOO[0].BAR?.$key.toString();
+    it('$path.toString() works', () => {
+      const actual = nav.FOO[0].BAR?.$path.toString();
 
       expect(actual)
         .toEqual('FOO.0.BAR');
     });
 
-    it('$key.resolve() returns existing value', () => {
-      const actual = nav.FOO[0].BAR?.$key.resolve(data);
+    it('$path.get() returns existing value', () => {
+      const actual = nav.FOO[0].BAR?.$path.get(data);
 
       expect(actual)
         .toEqual('Bar');
     });
 
-    it('$key.resolve() returns undefined for missing value', () => {
-      const actual = nav.FOO[1].BAR?.$key.resolve(data);
+    it('$path.get() returns undefined for missing value', () => {
+      const actual = nav.FOO[1].BAR?.$path.get(data);
 
       expect(actual)
         .toBeUndefined();
     });
 
-    it('$key.toArray works', () => {
-      const actual = nav.FOO[0].BAR?.$key.toArray();
+    it('$path.toArray works', () => {
+      const actual = nav.FOO[0].BAR?.$path.toArray();
 
       expect(actual)
         .toEqual(['FOO', '0', 'BAR']);
@@ -198,7 +198,7 @@ describe('TypesafeJsonPath', () => {
     it('compiles without error and executes the custom method', () => {
       const nav = TypesafeJsonPath.init<typeof dataEN, MyResolver<any>>(path => new MyResolver(path));
 
-      const actual = nav.FOO.BAR.BANANA.$key.doStuff();
+      const actual = nav.FOO.BAR.BANANA.$path.doStuff();
 
       expect(actual)
         .toEqual('DoStuff: FOO.BAR.BANANA');

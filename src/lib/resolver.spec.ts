@@ -40,7 +40,7 @@ describe('resolver', () => {
   describe('resolve', () => {
     it('returns the value at a full path', () => {
       const actual = new Resolver<unknown, typeof data>(['FOO', 'BAR', 'HELLO'])
-        .resolve(data);
+        .get(data);
 
       expect(actual)
         .toEqual('Hello World');
@@ -48,7 +48,7 @@ describe('resolver', () => {
 
     it('returns the value at a partial path', () => {
       const actual = new Resolver<unknown, typeof data>(['FOO', 'BAR'])
-        .resolve(data);
+        .get(data);
 
       expect(actual)
         .toEqual({
