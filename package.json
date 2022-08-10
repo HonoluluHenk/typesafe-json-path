@@ -1,7 +1,7 @@
 {
   "name": "@honoluluhenk/typesafe-json-path",
   "version": "0.0.0-0",
-  "description": "Easier navigation through objects with correct types and autocomplete",
+  "description": "Typesafe navigation in JSON data structures for typescrpt",
   "main": "./build/lib/index.js",
   "types": "./build/lib/index.d.ts",
   "files": [

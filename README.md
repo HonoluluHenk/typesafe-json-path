@@ -35,9 +35,9 @@ Typesafe navigation in JSON data structures for typescrpt.
 
 ## About The Project
 
-* Ever have a JSON data structure that is implemented in more than one file? Translation-files anyone?
+* Ever had a JSON data structure that is implemented in more than one file? Translation-files anyone?
 * You wanted to access these values in a typesafe manner? I.e.: without resorting to string-keys?
-* You want refactoring support from your IDE when renaming such keys?
+* You want refactoring support from your IDE when renaming properties?
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
@@ -57,9 +57,12 @@ const translationsRoot = {
     }
   }
 };
+
 const path = TypedObjectPath.init<typeof translationsRoot>();
+
 // please note: this is not string but real property access!
 const value = path.FOO.BAR.HELLO.$key.resolve(translationsRoot);
+
 console.log(value);
 // Hello World
 ```
