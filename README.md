@@ -84,7 +84,7 @@ use a custom Resolver and go wild.
 This example implements a translation service that is not access-by-string but fully typesafe!
 
 ```typescript
-import {type PathSegment, Resolver, TypedObjectPath} from '@honoluluhenk/typesafe-json-path';
+import {type PathSegment, Resolver, TypesafeJsonPath} from '@honoluluhenk/typesafe-json-path';
 
 const translationsRoot = {
   FOO: {
