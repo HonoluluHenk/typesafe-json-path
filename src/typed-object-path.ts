@@ -3,8 +3,67 @@ import {Resolver} from './resolver';
 import {Intermediate} from './intermediate';
 import {PathEndpoint} from './path-endpoint';
 
+/**
+ * Main entrypoint
+ */
 export class TypedObjectPath {
 
+  /**
+   * Initialize path traversal.
+   *
+   * <p/>
+   * Example:
+   * <pre>{@code
+   * const translationsRoot = {
+   *   FOO: {
+   *     BAR: {
+   *       BAZ: 'Baz was here!',
+   *       HELLO: 'Hello World',
+   *     }
+   *   }
+   * };
+   *
+   * const path = TypedObjectPath.init<typeof translationsRoot>();
+   *
+   * const value = path.FOO.BAR.HELLO.$key.resolve(translationsRoot);
+   * console.log(value);
+   * // Hello World
+   *
+   * }</pre>
+   *
+   * <br/>
+   * Or use your custom Resolver:
+   * <pre>{@code
+   * const translationsRoot = {
+   *   FOO: {
+   *     BAR: {
+   *       BAZ: 'Baz was here!',
+   *       HELLO: 'Hello %s',
+   *     }
+   *   }
+   * };
+   *
+   * class Translator<T extends object> extends Resolver<unknown, T> {
+   *   constructor(path: ReadonlyArray<PathSegment>, private readonly translator: TranslateService) {
+   *     super(path);
+   *   }
+   *
+   *   translate(args: ...unknown[]): string {
+   *     // delegate to some translation service:
+   *     return this.translator.translate(this.path, args);
+   *   }
+   * }
+   *
+   * const translations = TypedObjectPath.init<typeof translationsRoot, Translator<any>>(
+   *   path => new Translator(path, myTranslateService);)
+   * );
+   *
+   * const text = translations.FOO.BAR.HELLO.$key.translate('world');
+   * console.log(text);
+   * // Hello world
+   *
+   * }</pre>
+   */
   public static init<TRoot extends object>(): Intermediate<TRoot, TRoot, Resolver<unknown, TRoot>>;
   public static init<TRoot extends object, ResolverExtension extends Resolver<unknown, TRoot>>(
     resolverFactory: ResolverFactory<ResolverExtension>,
