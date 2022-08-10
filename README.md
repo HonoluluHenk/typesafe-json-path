@@ -140,8 +140,8 @@ const translations = TypesafeJsonPath.init<TranslationType, Translator<any>>(
 // again: this is not string but real property access in a typesafe and refactoring-friendly way!
 const text = translations.FOO.BAR.HELLO.$path.translate('Welt');
 // internally, myTranslateService.translate() was called with the path-string 'FOO.BAR.HELLO'.
-// Assuming the user language was some german (de) locale
 console.log(text);
+// Assuming the user language was some german (de) locale:
 // 'Hallo Welt'
 
 ```
