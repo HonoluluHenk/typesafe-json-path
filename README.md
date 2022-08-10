@@ -1,3 +1,4 @@
+<!--suppress HtmlDeprecatedAttribute, HtmlUnknownAnchorTarget -->
 <a name="readme-top"></a>
 # typesafe-json-path
  
