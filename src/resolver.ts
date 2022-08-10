@@ -60,6 +60,7 @@ export class Resolver<T, TRoot extends object> {
    * Traverse the root-object using the current path and return the value.
    */
   resolve(root: DeepPartial<TRoot>): T {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     let current: any = root;
     for (const path of this._path) {
       current = current[path];

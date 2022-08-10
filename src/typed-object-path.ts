@@ -76,18 +76,20 @@ export class TypedObjectPath {
     const endpoint = new PathEndpoint([], resolverFactory);
     const handler = new Handler(resolverFactory);
 
-    return new Proxy(endpoint, handler) as any as Intermediate<TRoot, TRoot, ResolverExtension>;
+    return new Proxy(endpoint, handler) as unknown as Intermediate<TRoot, TRoot, ResolverExtension>;
   }
 
 }
 
+// Proxy-Handlers are just too tedious with no explicit anys since we never know the actual type anyway.
+/* eslint-disable @typescript-eslint/no-explicit-any */
 class Handler implements ProxyHandler<any> {
   constructor(
     public readonly resolverFactory: ResolverFactory<any>,
   ) {
   }
 
-  get(targetEndpoint: any, prop: string | symbol, receiver: any): any {
+  get(targetEndpoint: any, prop: string | symbol, _receiver: any): any {
     // console.log('get', prop, typeof prop);
 
     if (targetEndpoint[prop]) {

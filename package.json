@@ -1,28 +1,61 @@
 {
-  "name": "@honoluluhenk/typed-object-path",
-  "version": "1.0.0",
+  "name": "@honoluluhenk/typesafe-json-path",
+  "version": "0.0.0-0",
   "description": "Easier navigation through objects with correct types and autocomplete",
-  "main": "index.js",
+  "main": "./build/lib/index.js",
+  "types": "./build/lib/index.d.ts",
+  "files": [
+    "./build/**"
+  ],
   "scripts": {
-    "build": "tsc --project tsconfig.app.json",
+    "build": "tsc --project tsconfig.lib.json",
     "test": "jest",
     "test:watch": "jest --watch",
     "test:watchAll": "jest --watchAll",
-    "clean": "rimraf dist reports"
+    "lint": "eslint src",
+    "clean": "rimraf build dist reports",
+    "bump-prepatch-version": "npm version prepatch --no-git-tag-version",
+    "prepush": "npm run release:prepare",
+    "release:prepare": "run-s release:prepare:*",
+    "release:prepare:clean": "run-s clean",
+    "release:prepare:check": "run-s test lint",
+    "release:prepare:build": "run-s build",
+    "release:publish": "npm publish --access=public"
   },
   "keywords": [
     "object",
     "traversal",
     "path",
+    "typesafe",
     "json"
   ],
-  "author": "Christoph Linder",
-  "license": "LGPL-3.0-or-later",
+  "author": {
+    "name": "Christoph Linder",
+    "email": "post@christoph-linder.ch",
+    "url": "https://github.com/HonoluluHenk"
+  },
+  "homepage": "https://github.com/HonoluluHenk/typesafe-json-path",
+  "bugs": {
+    "url": "https://github.com/HonoluluHenk/typesafe-json-path/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/HonoluluHenk/typesafe-json-path.git"
+  },
+  "license": "LGPL-2.1-or-later",
   "devDependencies": {
     "@types/jest": "^28.1.6",
+    "@typescript-eslint/eslint-plugin": "^5.33.0",
+    "@typescript-eslint/parser": "^5.33.0",
+    "eslint": "^8.21.0",
+    "eslint-config-standard": "^17.0.0",
+    "eslint-plugin-import": "^2.26.0",
+    "eslint-plugin-n": "^15.2.4",
+    "eslint-plugin-promise": "^6.0.0",
     "jest": "^28.1.3",
     "jest-junit": "^14.0.0",
     "jest-watch-typeahead": "^2.0.0",
+    "npm-run-all": "^4.1.5",
     "rimraf": "^3.0.2",
     "ts-jest": "^28.0.7",
     "ts-node": "^10.9.1",

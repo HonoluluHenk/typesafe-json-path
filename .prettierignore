@@ -1,5 +1,6 @@
+build
 dist
-coverage
+reports
 node_modules
 
 # Code Editors

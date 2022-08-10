@@ -3,6 +3,7 @@
  * https://jestjs.io/docs/configuration
  */
 
+// noinspection JSUnusedGlobalSymbols
 export default {
   // All imported modules in your tests should be mocked automatically
   // automock: false,
@@ -18,6 +19,7 @@ export default {
 
   // Indicates whether the coverage information should be collected while executing the test
   collectCoverage: true,
+  // collectCoverage: false,
 
   // An array of glob patterns indicating a set of files for which coverage information should be collected
   // collectCoverageFrom: undefined,
@@ -40,6 +42,7 @@ export default {
   //   "lcov",
   //   "clover"
   // ],
+  // coverageReporters: ["text"],
 
   // An object that configures minimum threshold enforcement for coverage results
   // coverageThreshold: undefined,
