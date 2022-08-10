@@ -6,7 +6,7 @@ import {PathEndpoint} from './path-endpoint';
 /**
  * Main entrypoint
  */
-export class TypedObjectPath {
+export class TypesafeJsonPath {
 
   /**
    * Initialize path traversal.
@@ -23,7 +23,7 @@ export class TypedObjectPath {
    *   }
    * };
    *
-   * const path = TypedObjectPath.init<typeof translationsRoot>();
+   * const path = TypesafeJsonPath.init<typeof translationsRoot>();
    *
    * const value = path.FOO.BAR.HELLO.$key.resolve(translationsRoot);
    * console.log(value);
@@ -54,7 +54,7 @@ export class TypedObjectPath {
    *   }
    * }
    *
-   * const translations = TypedObjectPath.init<typeof translationsRoot, Translator<any>>(
+   * const translations = TypesafeJsonPath.init<typeof translationsRoot, Translator<any>>(
    *   path => new Translator(path, myTranslateService);)
    * );
    *

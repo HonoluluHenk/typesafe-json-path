@@ -1,9 +1,9 @@
-import {TypedObjectPath} from './typed-object-path';
+import {TypesafeJsonPath} from './typesafe-json-path';
 import {Resolver} from './resolver';
 
 const symbol = Symbol('Love Symbol');
 
-describe('TypedObjectPath', () => {
+describe('TypesafeJsonPath', () => {
   const dataEN = {
     FOO: {
       BAR: {
@@ -14,7 +14,7 @@ describe('TypedObjectPath', () => {
   };
 
   it('$key.toString() returns the computed key', () => {
-    const nav = TypedObjectPath.init<typeof dataEN>();
+    const nav = TypesafeJsonPath.init<typeof dataEN>();
 
     const actual = nav.FOO.BAR.BANANA.$key.toString();
 
@@ -23,7 +23,7 @@ describe('TypedObjectPath', () => {
   });
 
   it('$key.toString() supports partial paths', () => {
-    const nav = TypedObjectPath.init<typeof dataEN>();
+    const nav = TypesafeJsonPath.init<typeof dataEN>();
 
     const actual = nav.FOO.BAR.$key.toString();
 
@@ -32,7 +32,7 @@ describe('TypedObjectPath', () => {
   });
 
   it('$key.resolve() returns the denoted value', () => {
-    const nav = TypedObjectPath.init<typeof dataEN>();
+    const nav = TypesafeJsonPath.init<typeof dataEN>();
 
     const actual = nav.FOO.BAR.HELLO.$key.resolve(dataEN);
 
@@ -41,7 +41,7 @@ describe('TypedObjectPath', () => {
   });
 
   it('$key.resolve() returns the denoted value for partial paths', () => {
-    const nav = TypedObjectPath.init<typeof dataEN>();
+    const nav = TypesafeJsonPath.init<typeof dataEN>();
 
     const actual = nav.FOO.BAR.$key.resolve(dataEN);
 
@@ -60,7 +60,7 @@ describe('TypedObjectPath', () => {
       },
     };
 
-    const nav = TypedObjectPath.init<typeof dataEN & typeof dataDE>();
+    const nav = TypesafeJsonPath.init<typeof dataEN & typeof dataDE>();
 
     const actual = nav.FOO.BAR.SCHNAPSIDEE.$key.resolve(dataEN);
 
@@ -76,7 +76,7 @@ describe('TypedObjectPath', () => {
         },
       },
     };
-    const nav = TypedObjectPath.init<typeof data>();
+    const nav = TypesafeJsonPath.init<typeof data>();
 
     let expecteds = ['FOO', 'BAR', 'BAZ'];
     for (const value of nav.FOO.BAR.BAZ) {
@@ -91,7 +91,7 @@ describe('TypedObjectPath', () => {
   });
 
   it('converts to string using (Symbol.toPrimitive)', () => {
-    const nav = TypedObjectPath.init<typeof dataEN>();
+    const nav = TypesafeJsonPath.init<typeof dataEN>();
 
     const actual = String(nav.FOO.BAR.BANANA);
 
@@ -100,7 +100,7 @@ describe('TypedObjectPath', () => {
   });
 
   it('converts to string using (Symbol.toStringTag)', () => {
-    const nav = TypedObjectPath.init<typeof dataEN>();
+    const nav = TypesafeJsonPath.init<typeof dataEN>();
 
     const actual = Object.prototype.toString.call(nav.FOO.BAR.BANANA);
 
@@ -116,7 +116,7 @@ describe('TypedObjectPath', () => {
         },
       },
     };
-    const navDEEN = TypedObjectPath.init<typeof dataEN & typeof dataOther>();
+    const navDEEN = TypesafeJsonPath.init<typeof dataEN & typeof dataOther>();
 
     const bananaKey = navDEEN.FOO.BAR.BANANA.$key.toString();
     const xyzzyKey = navDEEN.FOO.BAR.XYZZY.$key.toString();
@@ -135,7 +135,7 @@ describe('TypedObjectPath', () => {
         },
       },
     };
-    const nav = TypedObjectPath.init<typeof symbolData>();
+    const nav = TypesafeJsonPath.init<typeof symbolData>();
 
     it('$key.toString() stringifys the symbol', () => {
       const actual = nav.THE_ARTIST[symbol].FORMERLY_KNOWN_AS.$key.toString();
@@ -157,7 +157,7 @@ describe('TypedObjectPath', () => {
     const data = {
       FOO: [{BAR: 'Bar'}, {HELLO: 'World'}],
     };
-    const nav = TypedObjectPath.init<typeof data>();
+    const nav = TypesafeJsonPath.init<typeof data>();
 
     it('$key.toString() works', () => {
       const actual = nav.FOO[0].BAR?.$key.toString();
@@ -196,7 +196,7 @@ describe('TypedObjectPath', () => {
     }
 
     it('compiles without error and executes the custom method', () => {
-      const nav = TypedObjectPath.init<typeof dataEN, MyResolver<any>>(path => new MyResolver(path));
+      const nav = TypesafeJsonPath.init<typeof dataEN, MyResolver<any>>(path => new MyResolver(path));
 
       const actual = nav.FOO.BAR.BANANA.$key.doStuff();
 
