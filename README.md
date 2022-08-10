@@ -49,6 +49,7 @@ Best shown by example:
 
 ### Minimal example
 ```typescript
+import {TypedObjectPath} from '@honoluluhenk/typesafe-json-path';
 
 const translationsRoot = {
   FOO: {
@@ -78,15 +79,16 @@ use a custom Resolver and go wild.
 This example implements a translation service that is not access-by-string but fully typesafe!
 
 ```typescript
-// this is the master translation table with all keys.
+import {type PathSegment, Resolver, TypedObjectPath} from '@honoluluhenk/typesafe-json-path';
+
 const translationsRoot = {
   FOO: {
     BAR: {
       BAZ: 'Baz was here!',
       HELLO: 'Hello %s',
       RUCKSACK: 'Rucksack',
-    }
-  }
+    },
+  },
 };
 // some other translation
 const translationsDE = {
@@ -94,37 +96,43 @@ const translationsDE = {
     BAR: {
       BAZ: 'Baz war hier!',
       HELLO: 'Hallo %s',
-    }
-  }
+    },
+  },
 };
 
 // your custom path resolver
 class Translator<T extends object> extends Resolver<unknown, T> {
   constructor(
     path: ReadonlyArray<PathSegment>,
-    private readonly translateService: MyCustomTranslateService
-    ) {
+    private readonly myTranslateService: MyCustomTranslateService,
+  ) {
     super(path);
   }
 
-  translate(...args: unknown): string {
+  translate(...args: unknown[]): string {
     // Delegate to some translation service.
-    return this.translateService.translate(this.path, args);
+    return this.myTranslateService.translate(this.path, args);
   }
 }
 
 // include all variants to have full refactoring support in your IDE
 type TranslationType = typeof translationsRoot & typeof translationsDE;
 
+// Now the real fun begins...
 const translations = TypedObjectPath.init<TranslationType, Translator<any>>(
-  path => new Translator(path, myTranslateService),
+  path => new Translator(
+    path,
+    new MyCustomTranslateService(navigator.languages[0], {en: translationsRoot, de: translationsDE}),
+  ),
 );
 
 // again: this is not string but real property access!
-const text = translations.FOO.BAR.HELLO.$key.translate('world');
-// internally, your translateService was called with the path-string 'FOO.BAR.HELLO'.
+const text = translations.FOO.BAR.HELLO.$key.translate('Welt');
+// internally, myTranslateService.translate() was called with the path-string 'FOO.BAR.HELLO'.
+// Assuming the user language was some german (de) locale
 console.log(text);
-// Hallo world
+// Hallo Welt
+
 ```
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
