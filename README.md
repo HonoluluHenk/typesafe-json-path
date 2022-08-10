@@ -144,7 +144,7 @@ console.log(text);
 
 ## Getting Started
 
-This npm library is intended to be used in typescript and javascript projects.
+This npm library is intended to be used in typescript projects.
 
 Just install the NPM package:
 ```sh
